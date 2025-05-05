@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      padding: 20px;
+    }
+
+    .form-container {
+      background: #fff;
+      padding: 30px;
+      max-width: 500px;
+      margin: auto;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-container h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 8px;
+      box-sizing: border-box;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      background: #007bff;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      width: 100%;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+    </style>
+</head>
+<body>
+    <form>
+        <label>1.Applicant Name :</label>
+        <input type="text" name="first_name"><br><br>
+
+        <label>2.Father's Name :</label>
+        <input type="text" name="father_name"><br><br>
+
+        <label>3.Mother's Name :</label>
+        <input type="text" name="mother_name"><br><br>
+
+        <label>4.Guardian's Name :</label>
+        <input type="text" name="guardian_name">(In Case Father is not alive, state relationship)<br><br       <label>5.Date of Birth :</label>
+        <input type="date" name="dob">
+        <label>Aadhaar No. :</label>
+        <input type="number" name="aadhaar"><br><br>
+
+        <label>6.Address for Communication:-</label><br>
+        <textarea name="comm_address"></textarea><br>
+        Pin code: <input type="number" name="comm_pincode">
+        Mobile No.: <input type="number" name="comm_mobile"><br><br>
+        Landline No.: <input type="number" name="comm_landline">
+        Email: <input type="email" name="comm_email"><br><br>
+
+        <label>7.Permanent Address:</label><br>
+        <textarea name="perm_address"></textarea><br>
+        Pin code: <input type="number" name="comm_pincode">
+        Mobile No.: <input type="number" name="comm_mobile"><br><br>
+        Landline No.: <input type="number" name="comm_landline">
+        Email: <input type="email" name="comm_email"><br><br>
+
+        <label>8.Gender:</label>
+        <input type="radio" name="gender" value="Male"> Male
+        <input type="radio" name="gender" value="Female"> Female
+        <input type="radio" name="gender" value="Other"> Other<br><br>
+
+        <label>9.Category:</label>
+        <input type="radio" name="category" value="GEN"> GEN
+        <input type="radio" name="category" value="SC"> SC
+        <input type="radio" name="category" value="ST"> ST
+        <input type="radio" name="category" value="OBC"> OBC
+        <input type="radio" name="category" value="PH"> PH
+        <input type="radio" name="category" value="Others"> Others<br><br>
+        <center><input type="Reset" value="Reset">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="submit" Svalue="Submit"></center>
+
+</body>
+</html>

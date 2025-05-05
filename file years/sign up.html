@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sign Up</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+  body {
+  font-family: Arial, sans-serif;
+  background: #f2f2f2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.signup-container {
+  background:wheat;
+  padding: 30px 40px;
+  border-radius: 60px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.842);
+  width: 320px;
+  text-align: center;
+}
+
+.signup-container h2 {
+  margin-bottom: 30px;
+}
+
+.signup-container input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 75px;
+}
+.input-group {
+      position: relative;
+      margin-bottom: 10px;
+    }
+
+    
+
+.input-group .toggle-password {
+      position: absolute;
+      top: 50%;
+      right: 10px;
+      transform: translateY(-50%);
+      cursor: pointer;
+    }
+
+.signup-container button {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: green;
+  border: none;
+  color: white;
+  font-size: 16px;
+  border-radius: 100px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.signup-container button:hover {
+  background-color: blue;
+}
+  </style>
+</head>
+<body>
+  <div class="signup-container">
+    <h1>Sign Up</h1>
+    <form>
+      <input type="text" placeholder="Full Name" required>
+      <input type="email" placeholder="Email Address" required>
+      <div class="input-group">
+        <input type="password" id="password" placeholder="Password">
+        <span class="toggle-password" onclick="togglePassword()">👁</span>
+      </div>
+      <button type="submit">Create account</button>
+      <p class="signup-link">Don't have an account? <a href="homelogin.html">Login</a></p>
+      
+      <script>
+        function togglePassword() {
+          const passwordField = document.getElementById("password");
+          if (passwordField.type === "password") {
+            passwordField.type = "text";
+          } else {
+            passwordField.type = "password";
+          }
+        }
+      </script>
+    </form>
+  </div>
+</body>
+</html>

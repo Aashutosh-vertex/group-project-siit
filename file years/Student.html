@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    * {
+     margin: 0;
+     padding: 0;
+     box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+    }
+  
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #fff;
+      padding: 10px 20px;
+      color: #000;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+      position: relative;
+      z-index: 1000;
+    }
+        
+    .navbar-left {
+      display: flex;
+      align-items: center;
+    }
+        
+    .logo {
+      width: 60px;
+      height: 45px;
+      margin-right: 10px;
+    }
+        
+    .site-name {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #000;
+    }
+        
+    .navbar-right {
+      display: flex;
+      gap: 20px;
+    align-items: center;
+    }
+        
+    .navbar-right a {
+      color: #000;
+      text-decoration: none;
+      font-size: 1rem;
+    }
+
+    .navbar-right a:hover {
+      text-decoration: underline;
+    }
+        
+    .login-icon i {
+      font-size: 1.2rem;
+      color: #000;
+    }
+        
+    .menu-toggle {
+      display: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #000;
+    }
+        
+    .mobile-menu {
+      display: none;
+      flex-direction: column;
+      background-color: #f5f5f5;
+      padding: 10px 20px;
+    }
+        
+    .mobile-menu a {
+      color: #000;
+      text-decoration: none;
+      padding: 10px 0;
+      border-bottom: 1px solid #ccc;
+    }
+        
+    /* Responsive */
+    @media (max-width: 768px) {
+      .navbar-right {
+        display: none;
+      }
+        
+      .menu-toggle {
+        display: block;
+      }
+        
+      .mobile-menu.active {
+        display: flex;
+      }
+    }
+
+    /* Slider */
+    .slider {
+      width: 100%;
+      height: 400px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .slides {
+      display: flex;
+      width: 300%;
+      height: 100%;
+      transition: transform 0.5s ease-in-out;
+    }
+
+    .slides img {
+      margin-top: 20px;
+      width: 100%;
+      height: 450px;
+      object-fit: cover;
+    }
+
+    .dots {
+      position: absolute;
+      bottom: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #ccc;
+      cursor: pointer;
+    }
+
+    .dot.active {
+      background: #000000;
+    }
+
+    /*student dropdown css*/
+    .student-section {
+      padding: 40px 20px;
+      font-family: Arial, sans-serif;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    .student-section h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #004aad;
+    }
+
+    .link {
+      display: inline-block;
+      margin: 10px;
+      padding: 10px 15px;
+      background-color: #007BFF;
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+      font-weight: bold;
+    }
+
+    .dropdown-container {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .dropdown-item button {
+      width: 100%;
+      padding: 15px;
+      background-color: #004aad;
+      color: white;
+      border: none;
+      font-size: 1.1rem;
+      text-align: left;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .dropdown-content {
+      display: none;
+      background-color: #fff;
+      padding: 15px;
+      border-left: 4px solid #004aad;
+      border-radius: 0 6px 6px 6px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    @media (max-width: 600px) {
+      .dropdown-item button {
+        font-size: 1rem;
+        padding: 12px;
+      }
+
+      .dropdown-content {
+        font-size: 0.95rem;
+      }
+    }
+
+    /* footer css */
+    .college-footer {
+      background-color: #050442;
+      color: #f1f1f1;
+      padding: 40px 20px 10px;
+      font-family: Arial, sans-serif;
+    }
+
+    .footer-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .footer-about, .footer-links, .footer-contact {
+      flex: 1 1 250px;
+    }
+
+    .footer-about h3 {
+      margin-bottom: 10px;
+      color: #fff;
+    }
+
+    .footer-links ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .footer-links li {
+      margin-bottom: 8px;
+    }
+
+    .footer-links a {
+      color: #f1f1f1;
+      text-decoration: none;
+    }
+
+    .footer-links a:hover {
+      text-decoration: underline;
+    }
+
+    .footer-contact .social-icons a {
+      margin-right: 10px;
+      color: #f1f1f1;
+      font-size: 1.2rem;
+      text-decoration: none;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding: 15px 10px 5px;
+      border-top: 1px solid #7d74fa;
+      margin-top: 20px;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 768px) {
+      .footer-container {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .footer-contact .social-icons {
+        justify-content: center;
+         margin-top: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!--navbar-->
+  <nav class="navbar">
+    <div class="navbar-left">
+      <img src="logo.png" alt="Logo" class="logo"/>
+      <span class="site-name">S.I.I.T Patna</span>
+    </div>
+
+    <div class="navbar-right" id="navbar-right">
+      <a href="index.html">Home</a>
+      <a href="admission.html">Admission</a>
+      <a href="#Teacher">Teacher</a>
+      <a href="studentlogin.html" class="login-icon"><i class="fas fa-sign-in-alt"></i>Login</a>
+    </div>
+
+    <div class="menu-toggle" id="menu-toggle">
+      <i class="fas fa-bars"></i>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="index.html">Home</a>
+    <a href="admission.html">Admission</a>
+    <a href="#Teacher">Teacher</a>
+    <a href="studentlogin.html"> Login<i class="fas fa-sign-in-alt"></i></a>
+  </div>
+  <!-- Slider Section -->
+  <div class="slider" id="slider">
+    <div class="slides" id="slides">
+      <img src="grupstudent.jpeg" alt="Slide 1" />
+      <img src="grupstudent.jpeg" alt="Slide 2" />
+      <img src="grupstudent.jpeg" alt="Slide 3" />
+    </div>
+    <div class="dots" id="dots">
+      <div class="dot active" data-index="0"></div>
+      <div class="dot" data-index="1"></div>
+      <div class="dot" data-index="2"></div>
+    </div>
+  </div>
+
+  <section class="student-section">
+    <h2>Explore Our Courses</h2>
+    <div class="dropdown-container">
+      <div class="dropdown-item">
+        <button onclick="toggleDropdown('poly')">Polytechnic</button>
+        <div class="dropdown-content" id="poly">
+          <p>1. Computer Science & Engineering -: 60 &nbsp; &nbsp; &nbsp;<a class="link" href="CSE.html">click here more details</a></p>
+          <p>2. Mechanical Engineering -: 90 &nbsp; &nbsp; &nbsp;<a class="link" href="ME.html">click here more details</a> </p>
+          <p>3. Electrical Engineering -: 90 &nbsp; &nbsp; &nbsp;<a class="link" href="EE.html">click here more details</a> </p>
+          <p>4. Electrical & Electronics Engineering -: 90 &nbsp; &nbsp; &nbsp;<a class="link" href="EEE.html">click here more details</a> </p>
+          <p>5. Civil Engineering -: 120 &nbsp; &nbsp; &nbsp;<a class="link" href="CE.html">click here more details</a> </p>
+        </div>
+      </div>
+      
+      <div class="dropdown-item">
+        <button onclick="toggleDropdown('bpharm')">B.Pharma</button>
+        <div class="dropdown-content" id="bpharm">
+          <p>more details coming soon.........</p>
+        </div>
+      </div>
+      
+      <div class="dropdown-item">
+        <button onclick="toggleDropdown('nursing')">Nursing</button>
+        <div class="dropdown-content" id="nursing">
+          <p>more details coming soon.........</p>
+        </div>
+      </div>
+      
+      <div class="dropdown-item">
+        <button onclick="toggleDropdown('mca')">MCA</button>
+        <div class="dropdown-content" id="mca">
+          <p>more details coming soon.........</p>
+        </div>
+      </div>
+      
+      <div class="dropdown-item">
+        <button onclick="toggleDropdown('bca')">BCA</button>
+        <div class="dropdown-content" id="bca">
+          <p>more details coming soon.........</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="college-footer">
+        <div class="footer-container">
+          <div class="footer-about">
+            <h3>S.I.I.T Patna</h3>
+            <p>
+              Satyam International Institute of Technology is a place where raw talents are shaped, guided and polished to emerge as through professionals in the highly competitive knowledge based world.
+            </p>
+          </div>
+          <div class="footer-links">
+            <h4>Quick Links</h4>
+            <ul>
+              <li><a href="#/About">About Us</a></li>
+              <li><a href="admission.html">Admissions</a></li>
+              <li><a href="#">Departments</a></li>
+              <li><a href="#">Contact</a></li>
+            </ul>
+          </div>
+          <div class="footer-contact">
+            <h4>Contact</h4><br>
+            <p><i class="fas fa-map-marker-alt contact-icon"></i>  Campus of Shivam Convent, New Bypass Road, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Kankarbagh, Patna-20 </p><br>
+            <p><i class="fas fa-envelope contact-icon"></i>  Email: info@satyaminternational.com</p><br>
+            <p><i class="fas fa-phone contact-icon"></i>  Phone: +91 0612-2383973</p><br>
+            <div class="social-icons">
+              <a href="#"><i class="fab fa-facebook-f"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+              <a href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>©️ Create by Nitin Dev and Aashutosh kumar.</p>
+        </div>
+    </footer>
+</body>
+<script>
+    function toggleDropdown(id) {
+      const allContents = document.querySelectorAll('.dropdown-content');
+      allContents.forEach(content => {
+        if (content.id === id) {
+          content.style.display = content.style.display === 'block' ? 'none' : 'block';
+        } else {
+          content.style.display = 'none';
+        }
+      });
+    }
+    
+    const toggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    toggle.addEventListener('click', () => {
+      mobileMenu.classList.toggle('active');
+    });
+  
+</script>
+</html>

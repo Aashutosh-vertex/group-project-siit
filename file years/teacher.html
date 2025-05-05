@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Faculty Directory</title>
+  <style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+  }
+
+    .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    padding: 10px 20px;
+    color: #000;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    position: relative;
+    z-index: 1000;
+  }
+  
+  .navbar-left {
+    display: flex;
+    align-items: center;
+  }
+  
+  .logo {
+    width: 60px;
+    height: 45px;
+    margin-right: 10px;
+  }
+  
+  .site-name {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #000;
+  }
+  
+  .navbar-right {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+  }
+  
+  .navbar-right a {
+    color: #000;
+    text-decoration: none;
+    font-size: 1rem;
+  }
+
+  .navbar-right a:hover {
+    text-decoration: underline;
+  }
+  
+  .login-icon i {
+    font-size: 1.2rem;
+    color: #000;
+  }
+  
+  .menu-toggle {
+    display: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #000;
+  }
+  
+  .mobile-menu {
+    display: none;
+    flex-direction: column;
+    background-color: #f5f5f5;
+    padding: 10px 20px;
+  }
+  
+  .mobile-menu a {
+    color: #000;
+    text-decoration: none;
+    padding: 10px 0;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .navbar-right {
+      display: none;
+    }
+  
+    .menu-toggle {
+      display: block;
+    }
+  
+    .mobile-menu.active {
+      display: flex;
+    }
+}
+
+/* Slider */
+.slider {
+  width: 100%;
+  height: 400px;
+  overflow: hidden;
+  position: relative;
+}
+
+.slides {
+  display: flex;
+  width: 300%;
+  height: 100%;
+  transition: transform 0.5s ease-in-out;
+}
+
+.slides img {
+  margin-top: 20px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.dots {
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #ccc;
+  cursor: pointer;
+}
+
+.dot.active {
+  background: #000000;
+}
+
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #2c3e50;
+    }
+
+    .directory {
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    .category {
+      margin-bottom: 30px;
+    }
+
+    .category > h2 {
+      background: #2c3e50;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 6px;
+    }
+
+    .departments {
+      margin-top: 15px;
+    }
+
+    .department input[type="radio"] {
+      display: none;
+    }
+
+    .department label {
+      display: block;
+      background: #e0e7ef;
+      padding: 12px 16px;
+      margin-bottom: 5px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background 0.3s;
+    }
+
+    .department label:hover {
+      background: #d2dce7;
+    }
+
+    .faculty-list {
+      display: none;
+      padding: 15px;
+      background: #ffffff;
+      border: 1px solid #dcdcdc;
+      border-radius: 6px;
+      margin-top: 5px;
+    }
+
+    .department input[type="radio"]:checked + label + .faculty-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      animation: fadeIn 0.3s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .faculty-card {
+      background: #fdfdfd;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 15px;
+      width: calc(33.333% - 20px);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      text-align: center;
+    }
+
+    .faculty-card img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 10px;
+      border: 2px solid #ccc;
+    }
+
+    .faculty-card h3 {
+      margin-bottom: 6px;
+      font-size: 18px;
+      color: #2c3e50;
+    }
+
+    .faculty-card p {
+      margin: 4px 0;
+      font-size: 14px;
+      color: #555;
+    }
+
+    @media (max-width: 768px) {
+      .faculty-card {
+        width: calc(50% - 20px);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .faculty-card {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+    
+        <!--navbar-->
+  <nav class="navbar">
+    <div class="navbar-left">
+      <img src="logo.png" alt="Logo" class="logo"/>
+      <span class="site-name">S.I.I.T Patna</span>
+    </div>
+
+    <div class="navbar-right" id="navbar-right">
+      <a href="index.html">Home</a>
+      <a href="Student.html">Student</a>
+      <a href="teacherlogin.html" class="login-icon"><i class="fas fa-sign-in-alt"></i>Login</a>
+    </div>
+
+    <div class="menu-toggle" id="menu-toggle">
+      <i class="fas fa-bars"></i>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="index.html">Home</a>
+    <a href="Student.html">Student</a>
+    <a href="teacherlogin.html" class="login-icon"><i class="fas fa-sign-in-alt"></i>Login</a>
+  </div>
+  <!-- Slider Section -->
+  <div class="slider" id="slider">
+    <div class="slides" id="slides">
+      <img src="teachergrup.jpeg" alt="Slide 1" />
+      <img src="photo2.jpeg" alt="Slide 2" />
+      <img src="photo3.jpeg" alt="Slide 3" />
+    </div>
+    <div class="dots" id="dots">
+      <div class="dot active" data-index="0"></div>
+      <div class="dot" data-index="1"></div>
+      <div class="dot" data-index="2"></div>
+    </div>
+  </div>
+
+  <h1>Faculty Directory</h1>
+    <div class="directory">
+        <div class="category">
+            <h2>Polytechnic</h2>
+            <div class="departments">
+
+                <!-- Computer Science -->
+                <div class="department">
+                    <input type="radio" name="dept" id="cs">
+                    <label for="cs">Computer Science</label>
+                    <div class="faculty-list">
+                        <div class="faculty-card">
+                            <img src="common.jpeg" alt="Faculty">
+                            <h3>Mr. Ritik raj (HOD)</h3>
+                            <p>Subject: Operating System</p>
+                            <p>Phone: 9876543210</p>
+                            <p>Email: akumar@example.com</p>
+                            <p>Qualification: Ph.D. in CS</p>
+                        </div>
+                        <div class="faculty-card">
+                            <img src="rehan sir.jpeg" alt="Faculty">
+                            <h3>Mr. Rehan gohar</h3>
+                            <p>Subject: Computer Graphics</p>
+                            <p>Phone: 9123456780</p>
+                            <p>Email: bsharma@example.com</p>
+                            <p>Qualification: M.Tech</p>
+                        </div>
+
+                        <div class="faculty-card">
+                            <img src="common.jpeg" alt="Faculty">
+                            <h3>Mr. Deepak kumar</h3>
+                            <p>Subject: Python programing</p>
+                            <p>Phone: 9123456780</p>
+                            <p>Email: bsharma@example.com</p>
+                            <p>Qualification: M.Tech</p>
+                        </div>
+
+                        <div class="faculty-card">
+                            <img src="dilip sir.jpeg" alt="Faculty">
+                            <h3>Mr. Dlip Kumar</h3>
+                            <p>Subject: Python</p>
+                            <p>Phone: 9123456780</p>
+                            <p>Email: bsharma@example.com</p>
+                            <p>Qualification: M.Tech</p>
+                        </div>
+
+                        <div class="faculty-card">
+                            <img src="subham sir.jpeg" alt="Faculty">
+                            <h3>Mr. Subham Kumar</h3>
+                            <p>Subject: DBMS</p>
+                            <p>Phone: 9123456780</p>
+                            <p>Email: bsharma@example.com</p>
+                            <p>Qualification: M.Tech</p>
+                        </div>
+
+                        <div class="faculty-card">
+                            <img src="rohit.jpeg" alt="Faculty">
+                            <h3>Mr. Rohit Kumar</h3>
+                            <p>Subject: DSA</p>
+                            <p>Phone: 9123456780</p>
+                            <p>Email: bsharma@example.com</p>
+                            <p>Qualification: B.TECH(IT) COLLEGE-MUZAFFARPUR INSTITUTE OF TECHNOLOGY+PGDAC(CDAC NOIDA)</p>
+                        </div>
+
+                        
+                    </div>
+                </div>
+
+                <!-- Electrical Engineering -->
+                <div class="department">
+                    <input type="radio" name="dept" id="ee">
+                    <label for="ee">Electrical Engineering</label>
+                    <div class="faculty-list">
+
+                        <div class="faculty-card">
+                            <img src="common.jpeg" alt="Faculty">
+                            <h3>Mr. Santosh Kumar (HOD)</h3>
+                            <p>Subject: Common</p>
+                            <p>Phone: 9028870578</p>
+                            <p>Email: cmehta@example.com</p>
+                            <p>Qualification: M.E.</p>
+                        </div>
+
+                        <div class="faculty-card">
+                            <img src="common.jpeg" alt="Faculty">
+                            <h3>Mr. Amardeep kumar</h3>
+                            <p>Subject: Enterpunurship</p>
+                            <p>Phone: 9142049477</p>
+                            <p>Email: cmehta@example.com</p>
+                            <p>Qualification: M.E.</p>
+                        </div>
+
+                        <div class="faculty-card">
+                            <img src="common.jpeg" alt="Faculty">
+                            <h3>Mr. Ayoush kumar</h3>
+                            <p>Subject: IndustrialInd</p>
+                            <p>Phone: 8789858500</p>
+                            <p>Email: cmehta@example.com</p>
+                            <p>Qualification: M.E.</p>
+                        </div>
+
+                        <div class="faculty-card">
+                            <img src="common.jpg" alt="Faculty">
+                            <h3>Mr. Awadhesh kumar</h3>
+                            <p>Subject: Machine</p>
+                            <p>Phone: 6204019604</p>
+                            <p>Email: cmehta@example.com</p>
+                            <p>Qualification: M.E.</p>
+                        </div>
+
+                        <div class="faculty-card">
+                            <img src="common.jpeg" alt="Faculty">
+                            <h3>Mr. C. Mehta</h3>
+                            <p>Subject: Circuits</p>
+                            <p>Phone: 8899776655</p>
+                            <p>Email: cmehta@example.com</p>
+                            <p>Qualification: M.E.</p>
+                        </div>
+
+                        <div class="faculty-card">
+                            <img src="common.jpeg" alt="Faculty">
+                            <h3>Mr. C. Mehta</h3>
+                            <p>Subject: Circuits</p>
+                            <p>Phone: 8899776655</p>
+                            <p>Email: cmehta@example.com</p>
+                            <p>Qualification: M.E.</p>
+                        </div>
+
+                        <div class="faculty-card">
+                            <img src="common.jpeg" alt="Faculty">
+                            <h3>Mr. C. Mehta</h3>
+                            <p>Subject: Circuits</p>
+                            <p>Phone: 8899776655</p>
+                            <p>Email: cmehta@example.com</p>
+                            <p>Qualification: M.E.</p>
+                        </div>
+
+                        <div class="faculty-card">
+                            <img src="common.jpg" alt="Faculty">
+                            <h3>Mr. C. Mehta</h3>
+                            <p>Subject: Circuits</p>
+                            <p>Phone: 8899776655</p>
+                            <p>Email: cmehta@example.com</p>
+                            <p>Qualification: M.E.</p>
+                        </div>
+
+                        <div class="faculty-card">
+                            <img src="common.jpg" alt="Faculty">
+                            <h3>Mr. C. Mehta</h3>
+                            <p>Subject: Circuits</p>
+                            <p>Phone: 8899776655</p>
+                            <p>Email: cmehta@example.com</p>
+                            <p>Qualification: M.E.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mechanical Engineering -->
+                <div class="department">
+                    <input type="radio" name="dept" id="me">
+                    <label for="me">Mechanical Engineering</label>
+                    <div class="faculty-list">
+
+                        <div class="faculty-card">
+                            <img src="common.jpg" alt="Faculty">
+                            <h3>Dr. Balmiki Kumar</h3>
+                            <p>Subject: Thermodynamics</p>
+                            <p>Phone: 9988776655</p>
+                            <p>Email: drao@example.com</p>
+                            <p>Qualification: Ph.D. in ME</p>
+                        </div>
+
+                        <div class="faculty-card">
+                            <img src="common.jpg" alt="Faculty">
+                            <h3>Dr. D. Rao</h3>
+                            <p>Subject: Thermodynamics</p>
+                            <p>Phone: 9988776655</p>
+                            <p>Email: drao@example.com</p>
+                            <p>Qualification: Ph.D. in ME</p>
+                        </div>
+
+                        <div class="faculty-card">
+                            <img src="common.jpg" alt="Faculty">
+                            <h3>Dr. D. Rao</h3>
+                            <p>Subject: Thermodynamics</p>
+                            <p>Phone: 9988776655</p>
+                            <p>Email: drao@example.com</p>
+                            <p>Qualification: Ph.D. in ME</p>
+                        </div>
+
+                        <div class="faculty-card">
+                            <img src="common.jpg" alt="Faculty">
+                            <h3>Dr. D. Rao</h3>
+                            <p>Subject: Thermodynamics</p>
+                            <p>Phone: 9988776655</p>
+                            <p>Email: drao@example.com</p>
+                            <p>Qualification: Ph.D. in ME</p>
+                        </div>
+
+                        <div class="faculty-card">
+                            <img src="common.jpg" alt="Faculty">
+                            <h3>Dr. D. Rao</h3>
+                            <p>Subject: Thermodynamics</p>
+                            <p>Phone: 9988776655</p>
+                            <p>Email: drao@example.com</p>
+                            <p>Qualification: Ph.D. in ME</p>
+                        </div>
+
+                        <div class="faculty-card">
+                            <img src="common.jpg" alt="Faculty">
+                            <h3>Dr. D. Rao</h3>
+                            <p>Subject: Thermodynamics</p>
+                            <p>Phone: 9988776655</p>
+                            <p>Email: drao@example.com</p>
+                            <p>Qualification: Ph.D. in ME</p>
+                        </div>
+
+                        <div class="faculty-card">
+                            <img src="common.jpg" alt="Faculty">
+                            <h3>Dr. D. Rao</h3>
+                            <p>Subject: Thermodynamics</p>
+                            <p>Phone: 9988776655</p>
+                            <p>Email: drao@example.com</p>
+                            <p>Qualification: Ph.D. in ME</p>
+                        </div>
+
+                        <div class="faculty-card">
+                            <img src="common.jpg" alt="Faculty">
+                            <h3>Dr. D. Rao</h3>
+                            <p>Subject: Thermodynamics</p>
+                            <p>Phone: 9988776655</p>
+                            <p>Email: drao@example.com</p>
+                            <p>Qualification: Ph.D. in ME</p>
+                        </div>
+
+                        <div class="faculty-card">
+                            <img src="common.jpeg" alt="Faculty">
+                            <h3>Dr. D. Rao</h3>
+                            <p>Subject: Thermodynamics</p>
+                            <p>Phone: 9988776655</p>
+                            <p>Email: drao@example.com</p>
+                            <p>Qualification: Ph.D. in ME</p>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Civil Engineering -->
+                <div class="department">
+                    <input type="radio" name="dept" id="ce">
+                    <label for="ce">Civil Engineering</label>
+                    <div class="faculty-list">
+                        <div class="faculty-card">
+                            <img src="common.jpg" alt="Faculty">
+                            <h3>Mr. Ravi Ranjan Kumar Yadav(HOD)</h3>
+                            <p>Subject: Bulding Planning</p>
+                            <p>Phone: 9785745739</p>
+                            <p>Email: epatel@example.com</p>
+                            <p>Qualification: M.Tech Civil</p>
+                        </div>
+
+                        <div class="faculty-card">
+                            <img src="common.jpg" alt="Faculty">
+                            <h3>Mr. Kumdan Varma</h3>
+                            <p>Subject: Advance Surveying</p>
+                            <p>Phone: 8804641742</p>
+                            <p>Email: epatel@example.com</p>
+                            <p>Qualification: M.Tech Civil</p>
+                        </div>
+
+                        <div class="faculty-card">
+                            <img src="common.jpg" alt="Faculty">
+                            <h3> Mr. Sujeet Kumar</h3>
+                            <p>Subject: Theory of Structure</p>
+                            <p>Phone: 6205286020</p>
+                            <p>Email: epatel@example.com</p>
+                            <p>Qualification: M.Tech Civil</p>
+                        </div>
+
+                        <div class="faculty-card">
+                            <img src="common.jpg" alt="Faculty">
+                            <h3> Mr. Sanoj kumar </h3>
+                            <p>Subject: Hydraulics</p>
+                            <p>Phone: 8271250584</p>
+                            <p>Email: epatel@example.com</p>
+                            <p>Qualification: M.Tech Civil</p>
+                        </div>
+
+                        <div class="faculty-card">
+                            <img src="common.jpg" alt="Faculty">
+                            <h3>Mr. Aamir Khan</h3>
+                            <p>Subject: Inter prenureship(M)</p>
+                            <p>Phone: 8210215936</p>
+                            <p>Email: epatel@example.com</p>
+                            <p>Qualification: M.Tech Civil</p>
+                        </div>
+
+                        <div class="faculty-card">
+                            <img src="common.jpg" alt="Faculty">
+                            <h3>Mr. E. Patel</h3>
+                            <p>Subject: Structural Design</p>
+                            <p>Phone: 9011223344</p>
+                            <p>Email: epatel@example.com</p>
+                            <p>Qualification: M.Tech Civil</p>
+                        </div>
+
+                        <div class="faculty-card">
+                            <img src="common.jpg" alt="Faculty">
+                            <h3>Mr. E. Patel</h3>
+                            <p>Subject: Structural Design</p>
+                            <p>Phone: 9011223344</p>
+                            <p>Email: epatel@example.com</p>
+                            <p>Qualification: M.Tech Civil</p>
+                        </div>
+
+                        <div class="faculty-card">
+                            <img src="common.jpg" alt="Faculty">
+                            <h3>Mr. E. Patel</h3>
+                            <p>Subject: Structural Design</p>
+                            <p>Phone: 9011223344</p>
+                            <p>Email: epatel@example.com</p>
+                            <p>Qualification: M.Tech Civil</p>
+                        </div>
+
+                        <div class="faculty-card">
+                            <img src="common.jpg" alt="Faculty">
+                            <h3>Mr. E. Patel</h3>
+                            <p>Subject: Structural Design</p>
+                            <p>Phone: 9011223344</p>
+                            <p>Email: epatel@example.com</p>
+                            <p>Qualification: M.Tech Civil</p>
+                        </div>
+                        
+                    </div>
+                </div>
+
+                 <!--  ELECTRICAL AND ELECTRONICS ENGINEERING -->
+                 <div class="department">
+                    <input type="radio" name="dept" id="ce">
+                    <label for="ce"> Electrical and Electronics Engineering </label>
+                    <div class="faculty-list">
+                        <div class="faculty-card">
+                            <img src="C:\Users\rohit\OneDrive\Desktop\class Project\Image,s\WhatsApp Image 2025-05-02 at 15.22.40_31948703.jpg" alt="Faculty">
+                            <h3>Mr.Abhinaw rai(HOD)</h3>
+                            <p>Subject: Electric motor and transformer</p>
+                            <p>Phone: 9955614997</p>
+                            <p>Email: epatel@example.com</p>
+                            <p>Qualification: M.Tech Civil</p>
+                        </div>
+
+                        <div class="faculty-card">
+                            <img src="https://via.placeholder.com/100" alt="Faculty">
+                            <h3>Mr. Partap kumar</h3>
+                            <p>Subject: fundamental of basic Electronics</p>
+                            <p>Phone: 9039681594</p>
+                            <p>Email: epatel@example.com</p>
+                            <p>Qualification: M.Tech Civil</p>
+                        </div>
+
+                        <div class="faculty-card">
+                            <img src="https://via.placeholder.com/100" alt="Faculty">
+                            <h3>Mr. Amardeep kumar</h3>
+                            <p>Subject: Electrical mesurement</p>
+                            <p>Phone: 9142049477</p>
+                            <p>Email: epatel@example.com</p>
+                            <p>Qualification: M.Tech Civil</p>
+                        </div>
+
+                        <div class="faculty-card">
+                            <img src="https://via.placeholder.com/100" alt="Faculty">
+                            <h3>Mr. E. Patel</h3>
+                            <p>Subject: Structural Design</p>
+                            <p>Phone: 9011223344</p>
+                            <p>Email: epatel@example.com</p>
+                            <p>Qualification: M.Tech Civil</p>
+                        </div>
+
+                        <div class="faculty-card">
+                            <img src="https://via.placeholder.com/100" alt="Faculty">
+                            <h3>Mr. E. Patel</h3>
+                            <p>Subject: Structural Design</p>
+                            <p>Phone: 9011223344</p>
+                            <p>Email: epatel@example.com</p>
+                            <p>Qualification: M.Tech Civil</p>
+                        </div>
+
+                        <div class="faculty-card">
+                            <img src="https://via.placeholder.com/100" alt="Faculty">
+                            <h3>Mr. E. Patel</h3>
+                            <p>Subject: Structural Design</p>
+                            <p>Phone: 9011223344</p>
+                            <p>Email: epatel@example.com</p>
+                            <p>Qualification: M.Tech Civil</p>
+                        </div>
+
+                        <div class="faculty-card">
+                            <img src="https://via.placeholder.com/100" alt="Faculty">
+                            <h3>Mr. E. Patel</h3>
+                            <p>Subject: Structural Design</p>
+                            <p>Phone: 9011223344</p>
+                            <p>Email: epatel@example.com</p>
+                            <p>Qualification: M.Tech Civil</p>
+                        </div>
+
+                        <div class="faculty-card">
+                            <img src="https://via.placeholder.com/100" alt="Faculty">
+                            <h3>Mr. E. Patel</h3>
+                            <p>Subject: Structural Design</p>
+                            <p>Phone: 9011223344</p>
+                            <p>Email: epatel@example.com</p>
+                            <p>Qualification: M.Tech Civil</p>
+                        </div>
+
+                        <div class="faculty-card">
+                            <img src="https://via.placeholder.com/100" alt="Faculty">
+                            <h3>Mr. E. Patel</h3>
+                            <p>Subject: Structural Design</p>
+                            <p>Phone: 9011223344</p>
+                            <p>Email: epatel@example.com</p>
+                            <p>Qualification: M.Tech Civil</p>
+                        </div>
+                        
+                    </div>
+                </div>
+
+                <!-- Hide All Option -->
+                <div class="department">
+                    <input type="radio" name="dept" id="none" checked>
+                    <label for="none">Hide All</label>
+                </div>
+
+            </div>
+        </div>
+        <div class="directory">
+            <div class="category">
+                <h2>Diploma Programs</h2>
+                <div class="departments">
+                    <label for="cs">Computer Science</label>
+                    <div class="faculty-list">
+                        <div class="faculty-card">
+                            <img src="https://via.placeholder.com/100" alt="Faculty">
+                            <h3>Dr. A. Kumar</h3>
+                            <p>Subject: Data Structures</p>
+                            <p>Phone: 9876543210</p>
+                            <p>Email: akumar@example.com</p>
+                            <p>Qualification: Ph.D. in CS</p>
+                        </div>
+                </div>
+            </div>
+        </div>
+   </div>
+</body>
+</html>

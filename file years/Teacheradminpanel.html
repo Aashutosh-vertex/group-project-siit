@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Teacher Admin Panel</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0f2f5;
+      margin: 0;
+      padding: 0;
+    }
+
+    .panel {
+      max-width: 1000px;
+      margin: 20px auto;
+      padding: 20px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: #004aad;
+      margin-bottom: 20px;
+    }
+
+    form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: space-between;
+    }
+
+    form input, form select {
+      flex: 1 1 240px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+      margin-bottom: 15px;
+    }
+
+    button {
+      background: #004aad;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background: #00387a;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 30px;
+    }
+
+    table th, table td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #ccc;
+    }
+
+    table th {
+      background-color: #004aad;
+      color: white;
+    }
+
+    .actions button {
+      padding: 5px 10px;
+      margin-right: 5px;
+      font-size: 0.85rem;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .edit-btn {
+      background-color: #ffc107;
+      color: #000;
+    }
+
+    .delete-btn {
+      background-color: #dc3545;
+      color: #fff;
+    }
+
+    @media (max-width: 600px) {
+      form {
+        flex-direction: column;
+      }
+
+      table, thead, tbody, th, td, tr {
+        display: block;
+        width: 100%;
+      }
+
+      thead {
+        display: none;
+      }
+
+      tr {
+        margin-bottom: 15px;
+        background: #fff;
+        box-shadow: 0 0 5px rgba(0,0,0,0.1);
+        border-radius: 6px;
+        overflow: hidden;
+      }
+
+      td {
+        padding: 10px;
+        text-align: right;
+        position: relative;
+      }
+
+      td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 10px;
+        font-weight: bold;
+        text-align: left;
+      }
+
+      .actions {
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="panel">
+  <h2>Teacher Admin Panel</h2>
+  <form id="studentForm">
+    <input type="text" placeholder="Student Name" required>
+    <input type="text" placeholder="Father's Name" required>
+    <input type="text" placeholder="Mobile Number" required>
+    <input type="text" placeholder="Reg. Number" required>
+    <input type="text" placeholder="Board Roll No" required>
+    <input type="text" placeholder="Class Roll No" required>
+    <select required>
+      <option value="">Select Branch</option>
+      <option value="Polytechnic">Polytechnic</option>
+      <option value="B.Pharm">B.Pharm</option>
+      <option value="Nursing">Nursing</option>
+      <option value="MCA">MCA</option>
+      <option value="BCA">BCA</option>
+    </select>
+    <input type="text" placeholder="Semester" required>
+    <input type="text" placeholder="Attendance %" required>
+    <input type="text" placeholder="Dues (₹)" required>
+    <button type="submit">Save Student</button>
+  </form>
+
+  <table id="studentTable">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Reg. No</th>
+        <th>Branch</th>
+        <th>Sem</th>
+        <th>Attendance</th>
+        <th>Dues</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</div>
+
+<script>
+  const form = document.getElementById('studentForm');
+  const tableBody = document.querySelector('#studentTable tbody');
+  let editRow = null;
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const inputs = form.querySelectorAll('input, select');
+    const values = Array.from(inputs).map(el => el.value);
+
+    const rowHTML = `
+      <td data-label="Name">${values[0]}</td>
+      <td data-label="Reg. No">${values[3]}</td>
+      <td data-label="Branch">${values[6]}</td>
+      <td data-label="Sem">${values[7]}</td>
+      <td data-label="Attendance">${values[8]}%</td>
+      <td data-label="Dues">₹${values[9]}</td>
+      <td data-label="Actions" class="actions">
+        <button class="edit-btn" onclick="editStudent(this)">Edit</button>
+        <button class="delete-btn" onclick="deleteStudent(this)">Delete</button>
+      </td>
+    `;
+
+    if (editRow) {
+      editRow.innerHTML = rowHTML;
+      editRow = null;
+    } else {
+      const row = document.createElement('tr');
+      row.innerHTML = rowHTML;
+      tableBody.appendChild(row);
+    }
+
+    form.reset();
+  });
+
+  window.editStudent = function (button) {
+    editRow = button.closest('tr');
+    const cells = editRow.querySelectorAll('td');
+    const inputs = form.querySelectorAll('input, select');
+
+    inputs[0].value = cells[0].textContent;
+    inputs[3].value = cells[1].textContent;
+    inputs[6].value = cells[2].textContent;
+    inputs[7].value = cells[3].textContent;
+    inputs[8].value = cells[4].textContent.replace('%', '');
+    inputs[9].value = cells[5].textContent.replace('₹', '');
+
+    // Optional placeholder values for extra inputs
+    inputs[1].value = '';
+    inputs[2].value = '';
+    inputs[4].value = '';
+    inputs[5].value = '';
+  };
+
+  window.deleteStudent = function (button) {
+    const row = button.closest('tr');
+    if (confirm("Delete this student?")) {
+      row.remove();
+    }
+  };
+</script>
+
+</body>
+</html>
